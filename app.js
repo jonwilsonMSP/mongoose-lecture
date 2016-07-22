@@ -1,5 +1,16 @@
 var mongoose = require('mongoose');
-var Employee = require('./employee');
+var express = require('express');
+var employeeRouter = require('./routes/employee');
+var index = require('./routes/index');
+var bodyParser = require('body-parser');
+
+var app = express();
+
+app.use(bodyParser.json());
+app.use(express.static('public'));
+
+app.use('/', index);
+app.use('/emp', employeeRouter);
 
 var db = mongoose.connect('mongodb://localhost/anyNameHere').connection;
 
@@ -7,38 +18,8 @@ db.once('open', function() {
   console.log('Connected to MongoDB');
 });
 
-//Part 1
-var joel = new Employee({
-  firstName: 'Joel',
-  salary: 1800,
-  isManagement: false,
-  hireDate: new Date(),
-  location: 'B-E-A-U-tiful Bloomington, Minnesota',
-  extras: {
-    comments: 'bad personal hygiene'
-  }
-});
-
-//Part 2
-joel.save(function(err){
-  if(err) {
-    console.log('Save err', err);
-  }
-});
-
-
-Employee.create({firstName: 'Ryan', salary: 3600, isManagement: true, hireDate: new Date(), location: 'Apple Valley, Minnesota', extras: {comments: 'good personal hygiene'}}, function(err){
-  if(err){
-    console.log('Create error', err);
-  } else {
-    console.log('Saved successfully');
-  }
-});
-
-Employee.find({firstName: 'Joel', salary: 1800}, function(err, employees){
-  if(err){
-    console.log('Find error', err);
-  } else {
-    console.log(employees);
-  }
+var server = app.listen(3000, function(){
+  var port = server.address().port;
+  console.log('Address', server.address());
+  console.log('Listening on port', port);
 })

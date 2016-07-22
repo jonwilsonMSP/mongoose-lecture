@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="restApp">
+  <head>
+    <meta charset="utf-8">
+    <title>AngularJS && Mongoose</title>
+    <script src="vendors/angular/angular.min.js"></script>
+    <script src="scripts/client.js"></script>
+  </head>
+  <body ng-controller="RestController as rest">
+    <h1>Loaded {{rest.message}}</h1>
+
+    Name: <input type="text" ng-model="rest.firstName" />
+    Salary: <input type="number" ng-model="rest.salary" />
+    Management: <input type="checkbox" ng-model="rest.isManagement" />
+    <button ng-click="rest.doAction()">Do Action</button>
+
+    <ul>
+      <li ng-repeat = "employee in rest.employees">
+        {{employee.firstName}}
+      </li>
+    </ul>
+  </body>
+</html>
